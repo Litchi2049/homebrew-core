@@ -1,8 +1,8 @@
 class Ngt < Formula
   desc "Neighborhood graph and tree for indexing high-dimensional data"
   homepage "https://github.com/yahoojapan/NGT"
-  url "https://github.com/yahoojapan/NGT/archive/refs/tags/v2.1.6.tar.gz"
-  sha256 "5c6c9a193a22a4d166db812fb5daf4fba487b10d772c1b196eb31839d7af51fb"
+  url "https://github.com/yahoojapan/NGT/archive/refs/tags/v2.2.0.tar.gz"
+  sha256 "eb70a5a23cb4aa313110c5380179d2ed77d43c3da64b46aa5bd7f6445c2c5276"
   license "Apache-2.0"
 
   livecheck do
@@ -31,7 +31,11 @@ class Ngt < Formula
   end
 
   def install
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, "-DCMAKE_INSTALL_RPATH=#{rpath}"
+    args = %W[
+      -DCMAKE_INSTALL_RPATH=#{rpath}
+      -DNGT_BFLOAT_DISABLED=ON
+    ]
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
     pkgshare.install "data"
